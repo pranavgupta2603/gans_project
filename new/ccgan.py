@@ -1,6 +1,6 @@
 from __future__ import print_function, division
 
-from keras.datasets import mnist
+from keras.datasets import cifar10
 from keras_contrib.layers.normalization.instancenormalization import InstanceNormalization
 from keras.layers import Input, Dense, Reshape, Flatten, Dropout, multiply, GaussianNoise
 from keras.layers import BatchNormalization, Activation, Embedding, ZeroPadding2D
@@ -24,7 +24,7 @@ class CCGAN():
     def __init__(self):
         self.img_rows = 32
         self.img_cols = 32
-        self.channels = 1
+        self.channels = 3
         self.img_shape = (self.img_rows, self.img_cols, self.channels)
         self.mask_height = 10
         self.mask_width = 10
@@ -147,20 +147,19 @@ class CCGAN():
     def train(self, epochs, batch_size=128, sample_interval=50):
 
         # Load the dataset
-        (X_train, y_train), (_, _) = mnist.load_data()
-
+        (X_train, y_train), (_, _) = cifar10.load_data()
+        
         # Rescale MNIST to 32x32
         #X_train = np.array([scipy.misc.imresize(x, [self.img_rows, self.img_cols]) for x in X_train])
-        X_train = np.array([np.array(Image.fromarray(x).resize(size=(self.img_rows, self.img_cols))) for x in X_train])
+        #X_train = np.array([np.array(Image.fromarray(x).resize(size=(self.img_rows, self.img_cols))) for x in X_train])
 
         # Rescale -1 to 1
-        X_train = (X_train.astype(np.float32) - 127.5) / 127.5
-        X_train = np.expand_dims(X_train, axis=3)
+        X_train = X_train / 127.5 - 1.
         y_train = y_train.reshape(-1, 1)
 
         # Adversarial ground truths
-        valid = np.ones((batch_size, 4, 4, 1))
-        fake = np.zeros((batch_size, 4, 4, 1))
+        valid = np.ones((batch_size, 1))
+        fake = np.zeros((batch_size, 1))
 
         for epoch in range(epochs):
 
