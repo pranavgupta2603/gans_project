@@ -23,7 +23,7 @@ class ContextEncoder():
         self.mask_height = 8
         self.mask_width = 8
         self.channels = 3
-        self.num_classes = 2
+        self.num_classes = 10
         self.img_shape = (self.img_rows, self.img_cols, self.channels)
         self.missing_shape = (self.mask_height, self.mask_width, self.channels)
 
@@ -143,9 +143,9 @@ class ContextEncoder():
         (X_train, y_train), (_, _) = cifar10.load_data()
 
         # Extract dogs and cats
-        X_cats = X_train[(y_train == 3).flatten()]
-        X_dogs = X_train[(y_train == 5).flatten()]
-        X_train = np.vstack((X_cats, X_dogs))
+        #X_cats = X_train[(y_train == 3).flatten()]
+        #X_dogs = X_train[(y_train == 5).flatten()]
+        #X_train = np.vstack((X_cats, X_dogs))
 
         # Rescale -1 to 1
         X_train = X_train / 127.5 - 1.
