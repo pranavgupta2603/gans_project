@@ -124,7 +124,7 @@ class CCGAN():
         validity = Conv2D(1, kernel_size=4, strides=1, padding='same')(features)
 
         label = Flatten()(features)
-        label = Dense(self.num_classes+1, activation="softmax")(label)
+        label = Dense(self.num_classes+1, activation="sigmoid")(label)
 
         return Model(img, [validity, label])
 
@@ -218,11 +218,11 @@ class CCGAN():
 
         fig, axs = plt.subplots(r, c)
         for i in range(c):
-            axs[0,i].imshow(imgs[i, :, :, 0], cmap='gray')
+            axs[0,i].imshow(imgs[i, :, :, 0])
             axs[0,i].axis('off')
-            axs[1,i].imshow(masked_imgs[i, :, :, 0], cmap='gray')
+            axs[1,i].imshow(masked_imgs[i, :, :, 0])
             axs[1,i].axis('off')
-            axs[2,i].imshow(gen_imgs[i, :, :, 0], cmap='gray')
+            axs[2,i].imshow(gen_imgs[i, :, :, 0])
             axs[2,i].axis('off')
         fig.savefig("images/%d.png" % epoch)
         plt.close()
