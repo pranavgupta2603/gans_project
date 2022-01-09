@@ -158,8 +158,8 @@ class CCGAN():
         y_train = y_train.reshape(-1, 1)
 
         # Adversarial ground truths
-        valid = np.ones((batch_size, 1))
-        fake = np.zeros((batch_size, 1))
+        valid = np.ones((batch_size, 4, 4, 1))
+        fake = np.zeros((batch_size, 4, 4, 1))
 
         for epoch in range(epochs):
 
